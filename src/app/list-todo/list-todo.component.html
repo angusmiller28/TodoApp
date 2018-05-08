@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light mb-5">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
   <a class="navbar-brand" href="#">TodoApp</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -12,7 +12,7 @@
         <a class="nav-link mr-2" href="/todos/add"><i class="fa fa-plus"></i> Add Todo</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link mr-2" href="https://firstwebapi.azurewebsites.net/api/auth/"><i class="fa fa-user"></i> Login</a>
+        <a class="nav-link mr-2" href="/login"><i class="fa fa-user"></i> Login</a>
       </li>
     </ul>
   </div>
@@ -23,25 +23,30 @@
   <a routerLink="/add" routerLinkActive="active">Add Todo</a>
 </nav> -->
 
+<div *ngIf="!todos" class="alert alert-success text-center" role="alert">
+  Loading...
+ </div>
 
-<p *ngIf="!todos">Loading...</p>
-
-<div class="row d-flex justify-content-center">
+ <div *ngIf="todos.length == 0" class="alert alert-warning text-center" role="alert">
+    Not Todos Found
+   </div>
+ 
+<div class="row d-flex justify-content-center mt-5">
   <div class="col-6">
     <div class="list-group">
       <a *ngFor="let todo of todos" href="#" class="list-group-item list-group-item-action flex-column align-items-start">
         <div class="d-flex w-100 justify-content-between">
           <h3 class="mb-1">{{todo.title}}</h3>
-          <small>3 days ago</small>
+          <small><span [ngClass]="todo.isDone ? 'badge-success' : 'badge-danger'" class="badge badge-pill pt-5" >{{todo.isDone ? 'Task Done' : 'Task Not Done'}}</span></small>
         </div>
-        <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
+
         
-        <span [ngClass]="todo.isDone ? 'badge-success' : 'badge-danger'" class="badge badge-pill" >{{todo.isDone ? 'Task Done' : 'Task Not Done'}}</span>
+        <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
+
         <table class="mt-5">
           <tr>
-            <td><small><a href="/todos/delete/{{todo.id}}" class="mr-5"><i class="fa fa-trash-alt"></i></a></small></td>
-            <td><small><a href="/todos/update/{{todo.id}}" class="mr-5"><i class="fa fa-edit"></i></a></small></td>
-            <td><small><a href="/todos/view/{{todo.id}}" class="mr-5"><i class="fa fa-eye"></i></a></small></td>
+            <td><small><a href="/todos/delete/{{todo.id}}" class="mr-5"><i class="fa fa-trash-alt mr-2"></i> Delete</a></small></td>
+            <td><small><a href="/todos/update/{{todo.id}}" class="mr-5"><i class="fa fa-edit mr-2"></i> Edit</a></small></td>
           </tr>
         </table>
       </a>

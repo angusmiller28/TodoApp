@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../environments/environment';
+import {SESSION_STORAGE, WebStorageService} from 'angular-webstorage-service';
 
 @Component({
   selector: 'app-root',

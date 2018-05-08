@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../environments/environment';
-
+import {SESSION_STORAGE, WebStorageService} from 'angular-webstorage-service';
 
 @Component({
   selector: 'app-add-todo',
@@ -11,41 +11,51 @@ import { environment } from '../../environments/environment';
 })
 export class AddTodoComponent implements OnInit {
   title = '';
+  public data:any=[]
   public todo: Todos;
   public result: JSON;
+  public token: Token;
+  public tokenValue: string;
 
   //public model: Todo;
   public baseUrl: string;
 
-  constructor(private router:Router, private route: ActivatedRoute, private http: HttpClient) { 
+  constructor(private router:Router, private route: ActivatedRoute, private http: HttpClient, @Inject(SESSION_STORAGE) private storage: WebStorageService) { 
     this.baseUrl = environment.APIBaseURL;
 
     this.todo = JSON.parse('{"title":"","isDone":false}') as Todos;
     
     console.log(this.todo);
-   
 
-    //this.todo = result as Todos;
   }
 
   ngOnInit() {
+  }
+
+  getFromSession(key): Token {
+    console.log('recieved= key:' + key);
+    this.data[key]= this.storage.get(key);
+
+    return this.data;
   }
 
   submitted = false;
 
   onSubmit() { 
     this.submitted = true; 
-    console.log("Clicked update!");
 
-    // process form data
-    console.log(this.todo);
+    // get session token
+    this.token = this.getFromSession("token") as Token;
+    this.tokenValue = "Bearer " + this.token["token"];
 
     // put request to api
     this.http
-    .post(this.baseUrl + 'api/todos', this.todo)
+    .post(this.baseUrl + 'api/todos', this.todo, 
+    {
+      headers: new HttpHeaders().set('Authorization', this.tokenValue), 
+    })
     .subscribe(result => {
       this.todo = result as Todos;
-      console.log(this.todo);
     }, error => console.error(error));
 
     this.router.navigate(["/todos/list"]);
@@ -60,3 +70,6 @@ interface Todos {
   isDone: boolean;
 }
 
+interface Token {
+  code: string;
+}

@@ -10,14 +10,17 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { UpdateTodoComponent } from './update-todo/update-todo.component';
 import { ViewTodoComponent } from './view-todo/view-todo.component';
 import { FormsModule } from '@angular/forms';
-
+import { StorageServiceModule} from 'angular-webstorage-service';
+ 
 // Boostrap
 import { Observable, Subject, asapScheduler, pipe, of, from, interval, merge, fromEvent } from 'rxjs';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { LoginComponent } from './login/login.component';
 
 const appRoutes: Routes = [
+  { path: 'login', component: LoginComponent },
   {
     path: 'todos',
     children: [
@@ -50,6 +53,7 @@ const appRoutes: Routes = [
     ListTodoComponent,
     UpdateTodoComponent,
     ViewTodoComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
@@ -58,10 +62,13 @@ const appRoutes: Routes = [
     BsDropdownModule.forRoot(),
     TooltipModule.forRoot(),
     ModalModule.forRoot(),
-    FormsModule
+    FormsModule,
+    StorageServiceModule
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule { 
+  
+}
 
