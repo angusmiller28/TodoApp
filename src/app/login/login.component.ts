@@ -38,11 +38,9 @@ export class LoginComponent implements OnInit {
 
   onSubmit() { 
     this.submitted = true; 
-    console.log("Clicked update!");
 
     // create auth header
     this.authHeader = btoa(this.user.username + ":" + this.user.password);
-    console.log(this.authHeader);
 
     // put request to api
     this.http
@@ -52,21 +50,19 @@ export class LoginComponent implements OnInit {
     })
     .subscribe(result => {
       this.token = result as Token;
-      console.log(this.token);
 
       // save to session
-    this.saveInSession("token",this.token.code)
+      this.saveInSession("token",this.token.code)
 
       this.router.navigate(["/todos/list"]);
     }, 
     // An error has occurred; check status code and take according action
     error => 
     {
+      console.log(error);
       if(error.status == 400) // Unauthorized
       {
-        
         this.notification = JSON.parse('{"message":"Bummer! We could not verify you. Did you give the right credentials?", "error":"true"}') as Notification;
-        //this.notification = JSON.parse('{"message":"' + error.statusText + '", "error":"true"') as Notification;
       }
       this.router.navigate(["/login"]);
     }

@@ -18,8 +18,12 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { LoginComponent } from './login/login.component';
+import { NavComponent } from './nav/nav.component';
+import { FooterComponent } from './footer/footer.component';
+import { NotificationComponent } from './notification/notification.component';
 
 const appRoutes: Routes = [
+  { path: '', component: ListTodoComponent },
   { path: 'login', component: LoginComponent },
   {
     path: 'todos',
@@ -54,6 +58,9 @@ const appRoutes: Routes = [
     UpdateTodoComponent,
     ViewTodoComponent,
     LoginComponent,
+    NavComponent,
+    FooterComponent,
+    NotificationComponent,
   ],
   imports: [
     BrowserModule,

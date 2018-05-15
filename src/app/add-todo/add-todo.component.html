@@ -1,36 +1,22 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light mb-5">
-  <a class="navbar-brand" href="#">TodoApp</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarNav">
-    <ul class="navbar-nav ml-auto">
-      <li class="nav-item">
-        <a class="nav-link mr-2" href="/todos/list"><i class="fa fa-tasks"></i> List Todos</a>
-      </li>
-      <li class="nav-item active">
-        <a class="nav-link mr-2" href="/todos/add"><i class="fa fa-plus"></i> Add Todo</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link mr-2" href="/login"><i class="fa fa-user"></i> Login</a>
-      </li>
-    </ul>
+<div *ngIf="notification.error == 'true'" class="alert alert-danger text-center" role="alert">
+    {{ notification.message }}
   </div>
-</nav>
-
   {{diagnostic}}
-  <div class="container">
-      <h1>Add Todo</h1>
-      <form >
-        <div class="form-group">
-          <label for="name">Title</label>
-          <input type="text" class="form-control" id="title" required [(ngModel)]="todo.title" name="title" #title="ngModel">
-          <div [hidden]="title.valid || title.pristine"
-         class="alert alert-danger">
-      Title is required
-    </div>
+      <h1 class="mb-5 text-center">Add Todo</h1>
+      <form>
+        <div class="form-row">
+            <div class="form-group col-12">
+                <div>
+                    <label for="name">Title</label>
+                    <div [hidden]="title.valid || title.pristine" class="invalid-form-feedback mb-2">
+                        <small>Title is required</small>
+                    </div>
+                    <input type="text" class="form-control col" id="title" required [(ngModel)]="todo.title" name="title" #title="ngModel">
+                </div>
+            </div>
         </div>
 
-        <button type="submit" class="btn btn-primary" (click)="onSubmit()">Submit</button>
+        <div class="text-center mt-5"> 
+            <button type="submit" class="btn btn-outline-primary" (click)="onSubmit()">Submit</button>
+        </div>
       </form>
-    </div>

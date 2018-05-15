@@ -14,6 +14,7 @@ export class ListTodoComponent implements OnInit {
   public data:any=[]
   public todos: Todos[];
   public todo: Todos;
+  public notification: Notification;
   public token: Token;
   public tokenValue: string;
   public baseUrl: string;
@@ -24,15 +25,36 @@ export class ListTodoComponent implements OnInit {
      // get session token
      this.token = this.getFromSession("token") as Token;
      this.tokenValue = "Bearer " + this.token["token"];
-     console.log(this.tokenValue);
-    
+     this.notification = JSON.parse('{"message":"d", "error":"false"}') as Notification;
 
     http.get(this.baseUrl + 'api/todos', {
       headers: new HttpHeaders().set('Authorization', this.tokenValue), 
     }).subscribe(result => {
       this.todos = result as Todos[];
-      console.log(this.todos);
-    }, error => console.error(error));
+
+      this.todos.forEach(element => {
+        element.subtaskCurrent = 5;
+        element.subtaskTotal = 10;
+      });
+      
+      // calculate complete percentage
+      this.calculateTodosPercentage(this.todos);
+
+    }, error => 
+    {
+      console.log(error);
+      if(error.status == "401") // Unauthorized
+      {
+        this.notification = JSON.parse('{"message":"Bummer! You are not authorized. Redirecting you to the login page...", "error":"true"}') as Notification;
+
+        setTimeout(() => 
+        {
+          this.router.navigate(["/login"]);
+        },
+        5000);
+      }
+    }
+    );
   }
 
   ngOnInit() {
@@ -40,38 +62,28 @@ export class ListTodoComponent implements OnInit {
   }
 
   submitted = false;
-
- 
-  onDelete(id: string) { 
-    this.submitted = true; 
-    console.log("Clicked delete!");
-    
-    // get todo
-    // this.http.get(this.baseUrl + 'api/todos').subscribe(result => {
-    //   this.todo = result as Todos;
-    //   console.log(this.todos);
-    // }, error => console.error(error));
-
-    // process form data
-    console.log(id);
-
-    // delete request to api
-    this.http.delete(this.baseUrl + 'api/todos/' + id, {
-      params: new HttpParams().set('id', id),
-      headers: new HttpHeaders().set('Authorization', this.tokenValue), 
-    }).subscribe(result => {
-      this.todos = result as Todos[];
-      console.log(this.todos);
-    }, error => console.error(error));
-
-    this.router.navigate(["/todos/list"]);
-  };
   
   getFromSession(key): Token {
-    console.log('recieved= key:' + key);
     this.data[key]= this.storage.get(key);
 
     return this.data;
+}
+
+calculateTodosPercentage(Todos)
+{
+  // loop through todos and assign percentage
+  Todos.forEach(element => {
+    element.completedPercentageText = '' + (element.subtaskCurrent / element.subtaskTotal) * 100 + '%';
+    element.completedPercentage = (element.subtaskCurrent / element.subtaskTotal) * 100;
+  });
+
+  for(let key in Todos)
+  {
+    let value = Todos[key];
+
+    console.log(value);
+  }
+
 }
 
 }
@@ -80,8 +92,16 @@ interface Todos {
   id: number;
   title: string;
   isDone: boolean;
+  completedPercentage: string;
+  subtaskCurrent: number;
+  subtaskTotal: number;
 }
 
 interface Token {
   code: string;
+}
+
+interface Notification {
+  message: string;
+  error: boolean;
 }

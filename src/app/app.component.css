@@ -1,7 +1,13 @@
 .ng-valid[required], .ng-valid.required  {
     border-left: 10px solid #42A948; /* green */
+
   }
   
   .ng-invalid:not(form)  {
     border-left: 10px solid #a94442; /* red */
+    
+  }
+
+  a, p, label, h1, h2, h3, h4, h5, h6, span, button {
+    font-family: 'Indie Flower', cursive !important;
   }

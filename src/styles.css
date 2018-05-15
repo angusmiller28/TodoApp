@@ -11,3 +11,46 @@ a {
 a:active {
   color: red;
 }
+
+/* Form Styles */
+.form-control {
+  width: 300px !important;
+}
+
+.ng-valid[required], .ng-valid.required  {
+  border: 1px solid #42A948;
+  border-left: 10px solid #42A948; /* green */
+}
+
+.ng-invalid:not(form)  {
+  border: 1px solid #a94442;
+  border-left: 10px solid #a94442; /* red */
+}
+
+.form-group {
+  display: flex;
+  justify-content: center;
+}
+
+.form-check-group {
+  width: 300px;
+}
+
+a, p, label, h1, h2, h3, h4, h5, h6, span, button, small {
+  font-family: 'Indie Flower', cursive !important;
+}
+
+/** Grid **/
+
+html {
+  height: 100%;
+}
+body {
+  min-height: 100%;
+}
+
+
+.invalid-form-feedback {
+  color: #a94442;
+  display: block;
+}

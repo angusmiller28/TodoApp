@@ -5,3 +5,10 @@
   .ng-invalid:not(form)  {
     border-left: 10px solid #a94442; /* red */
   }
+
+  a, p, label, h1, h2, h3, h4, h5, h6, span, button, input {
+    font-family: 'Indie Flower', cursive !important;
+  }
+
+  
+  

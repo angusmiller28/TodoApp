@@ -1,0 +1,13 @@
+.bg-light {
+    background-color: rgba(127, 197, 22, 0.658) !important;
+}
+
+a {
+    font-family: 'Indie Flower', cursive;
+}
+
+.navbar-brand {
+    color: white !important;
+    font-family: 'Cabin Sketch', cursive;
+    font-size: 2em;
+}
